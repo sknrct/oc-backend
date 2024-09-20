@@ -9,10 +9,12 @@ const sharp = require("../middleware/sharp-config");
 
 const bookCtrl = require("../controllers/book");
 
+router.get("/bestrating", bookCtrl.getBestRating);
 router.get("/:id", bookCtrl.getOneBook);
 router.get("/", bookCtrl.getAllBooks);
 
 router.post("/", auth, multer, sharp, bookCtrl.createBook);
+router.post("/:id/rating", auth, bookCtrl.rateOneBook);
 
 router.put("/:id", auth, multer, sharp, bookCtrl.modifyBook);
 
