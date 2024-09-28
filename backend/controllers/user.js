@@ -6,7 +6,6 @@ const User = require("../models/User");
 exports.signup = (req, res, next) => {
   bcrypt
     .hash(req.body.password, 10)
-    
     .then((hash) => {
       const user = new User({
         email: req.body.email,
@@ -14,11 +13,18 @@ exports.signup = (req, res, next) => {
       });
       user
         .save()
-        .then(() => res.status(201).json({ message: "Utilisateur crée" }))
-        .catch((error) => res.status(400).json({ error }));
+        .then(() => res.status(201).json({ message: "Utilisateur créé avec succès" }))
+        .catch((error) => {
+          if (error.code === 11000) {
+            res.status(400).json({ message: "Erreur lors de l'inscription." });
+          } else {
+            res.status(400).json({ error });
+          }
+        });
     })
     .catch((error) => res.status(500).json({ error }));
 };
+
 
 exports.login = (req, res, next) => {
   console.log("Requête reçue avec email :", req.body.email);

@@ -103,7 +103,7 @@ exports.rateOneBook = (req, res, next) => {
         return res.status(404).json({ message: "Livre inexistant" });
       }
 
-      // Mieux nommer 
+      
       const changeRate = book.ratings.find((rating) => rating.userId === userId);
       if (changeRate) {
         return res.status(400).json({ message: "Vous avez déjà donné une note à ce livre" });
